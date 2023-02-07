@@ -25,6 +25,44 @@ class City {
     };
 }
 
+// This class represents a city
+class Weather {
+    // This is created when the class is made
+    constructor(day) {
+        this._day = day;
+        this._temp = [];
+        this._windSpeed = [];
+        this._humidity = [];
+    };
+    addTemp(temp) {
+        this._temp.push(temp)
+    }
+    addWindSpeed(windSpeed) {
+        this._windSpeed.push(windSpeed)
+    }
+    addHumidity(humidity) {
+        this._humidity.push(humidity)
+    }
+    get meanTemp() {
+        return this._temp.reduce(function(p,c,i){return p+(c-p)/(i+1)},0)
+    }
+    get highTemp() {
+        return Math.max(...this.temp)
+    }
+    get lowTemp() {
+        return Math.min(...this.temp)
+    }
+    get meanWindSpeed() {
+        return this._windSpeed.reduce(function(p,c,i){return p+(c-p)/(i+1)},0)
+    }
+    get meanHumidity() {
+        return this._humidity.reduce(function(p,c,i){return p+(c-p)/(i+1)},0)
+    }
+    get day() {
+        return this._day
+    }
+}
+
 // This function sets up the page
 function init() {
     // Check if the history has been created. If not default to london.
@@ -39,9 +77,9 @@ function renderForecast() {
     // Get city object of object most recent search
     let currentCity = JSON.parse(localStorage.getItem("cityHistory"))[0];
     // This lists the days used
-    let dates = [dayjs(), dayjs().add(1, 'day'), dayjs().add(2, 'day'), dayjs().add(3, 'day'), dayjs().add(4, 'day'), dayjs().add(5, 'day')]
+    let dates = [new Weather(dayjs()), new Weather(dayjs().add(1, 'day')), new Weather(dayjs().add(2, 'day')), new Weather(dayjs().add(3, 'day')), new Weather(dayjs().add(4, 'day')), new Weather(dayjs().add(5, 'day'))]
     for (let i = 1; i < dates.length; i++) {
-        $(`#day-${i}-title`)
+        $(`#day-${i}-title`).text(dates[i].day.format("ddd DD/MM/YY"))
     }
     // 
     console.log(dates)
@@ -53,8 +91,29 @@ function renderForecast() {
     }).then((response) => {
         // console.log(response.list);
         response.list.forEach(element => {
-            console.log(dayjs(element.dt * 1000).format('DD/MM/YY'), element.dt_txt, element.weather[0].icon, element.main.temp, element.wind.speed, element.main.humidity)
+            for (let i = 0; i < dates.length; i++) {
+                if (dayjs(element.dt * 1000).isSame(dates[i].day, 'day') ){
+                    dates[i].addTemp(element.main.temp);
+                    dates[i].addWindSpeed(element.wind.speed);
+                    dates[i].addHumidity(element.main.humidity);
+                }
+                $(`#day-${i}-title`).text(dates[i].day.format("ddd DD/MM/YY"))
+            }
+            // If the time is between 9pm and 12am there are no results in today. Add the first results from the next day.
+            if (dates[0]._temp.length === 0) {
+                dates[0].addTemp(dates[1]._temp[0]);
+                dates[0].addWindSpeed(dates[1]._windSpeed[0]);
+                dates[0].addHumidity(dates[1]._humidity[0]);
+            }
+            
+            // console.log(dayjs(element.dt * 1000).format('DD/MM/YY'), element.dt_txt, element.weather[0].icon, element.main.temp, element.wind.speed, element.main.humidity)
         })
+        dates.forEach((element, index) => {
+            $(`#day-${index}-temp-value`).text(element.meanTemp);
+            $(`#day-${index}-wind-value`).text(element.meanWindSpeed);
+            $(`#day-${index}-humidty-value`).text(element.meanHumidity);
+        })
+        console.log(dates)
         return response;
     });
     // console.log(weatherData);
