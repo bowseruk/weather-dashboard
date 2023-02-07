@@ -70,7 +70,7 @@ function renderButtons() {
     $('#city-btn-group').empty()
     // Look in the history and make a button for previous searches
     JSON.parse(localStorage.getItem("cityHistory")).forEach(element => {
-        $('#city-btn-group').append($('<button>').addClass("btn city-btn").text(`${element.name}`).attr(`data-query`, `${element.query}`).attr(`data-lat`, `${element.lat}`).attr(`data-lon`, `${element.lon}`))
+        $('#city-btn-group').append($('<button>').addClass("btn city-btn").text(`${element.name}`).attr(`data-name`, `${element.name}`).attr(`data-state`, `${element.state}`).attr(`data-country`, `${element.country}`).attr(`data-lat`, `${element.lat}`).attr(`data-lon`, `${element.lon}`))
     })
 }
 
@@ -88,9 +88,13 @@ function addCity(name, state, country, lat, lon) {
     }
     // Add to the start of the list
     history.unshift(city);
+    // limit the history to 10 cities to stop it getting cluttered.
+    if (history.length === 10) {
+        history.pop();
+    }
     localStorage.setItem("cityHistory", JSON.stringify(history));
 }
-
+// What to happen when you click the search button
 $('#search-button').on('click', (event) => {
     // Stop submit event
     event.preventDefault()
@@ -98,9 +102,12 @@ $('#search-button').on('click', (event) => {
     if ($('#search-input').val() === "") {
         return false;
     }
+    let input = $('#search-input').val();
+    // Clear the input out after searching
+    $('#search-input').val("");
     // Call the city api to get the lon and lat
     $.ajax({
-        url: geourl($('#search-input').val(), 1, APIKEY),
+        url: geourl(input, 1, APIKEY),
         method: "GET"
     }).then((response) => {
         // Check we have recieved a city
@@ -114,6 +121,17 @@ $('#search-button').on('click', (event) => {
     })
 });
 
+$('#clear-button').on('click', (event) => {
+    // Overwrite the local storage with london if the clear button is pressed
+    localStorage.setItem("cityHistory", JSON.stringify([new City("London", "England", "GB", 51.5073219, -0.1276474)]));
+    init();
+});
+
+$('#city-btn-group').on('click', (event) => {
+    event.preventDefault();
+    addCity(event.target.dataset.name,(event.target.dataset.state === 'undefined') ? undefined : event.target.dataset.state,(event.target.dataset.country === 'undefined') ? undefined : event.target.dataset.country, event.target.dataset.lat,event.target.dataset.lon);
+    init();
+})
 
 init()
 
