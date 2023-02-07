@@ -51,14 +51,14 @@ function getForecast(lat, lon) {
 
 function renderForecast() {
     // Empty current contents
-    $('#today').empty()
+    // $('#today').empty()
     $('#forecast').empty()
     // Get city object of object most recent search
     let currentCity = JSON.parse(localStorage.getItem("cityHistory"))[0];
     let weatherData = getForecast(currentCity.lat, currentCity.lon);
     console.log(weatherData);
     // Make the today box
-    $('#today').append($('<div>').addClass("card").append($('<h3>').text(`${currentCity.name} (${dayjs().format('DD/MM/YY')})`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
+    // $('#today').append($('<div>').addClass("card").append($('<h3>').text(`${currentCity.name} (${dayjs().format('DD/MM/YY')})`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
     // Forecast
     for (let i = 0; i < 5; i++) {
         $('#forecast').append($('<div>').addClass("card forecast-card col-lg-2").append($('<h3>').text(`${dayjs().add(i + 1, 'day').format('ddd DD/MM/YY')}`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
