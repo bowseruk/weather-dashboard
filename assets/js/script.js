@@ -5,7 +5,7 @@ fetch('https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9
     .then((response) => response.json())
     .then((json) => console.log(json));
 // These functions make the url for api calls
-let geourl = (cityName, limit, apiKey) => `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=${limit}&appid=${apiKey}`
+let geourl = (cityName, limit, apiKey) => `http://api.openweathermap.org/geo/1.0/direct?q=${cityName.replaceAll(" ","")}&limit=${limit}&appid=${apiKey}`
 
 // This function sets up the page
 function init() {
@@ -37,23 +37,23 @@ function renderForecast() {
     let weatherData = getForecast(currentCity.lat, currentCity.lon);
     console.log(weatherData);
     // Make the today box
-    $('#today').append($('<div>').addClass("card").append($('<h3>').text(`${currentCity.name}`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
+    $('#today').append($('<div>').addClass("card").append($('<h3>').text(`${currentCity.name} (${dayjs().format('DD/MM/YY')})`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
     // Forecast
     for (let i = 0; i < 5; i++) {
-        $('#forecast').append($('<div>').addClass("card forecast-card col-lg-2 me-auto").append($('<h3>').text('Placeholder')).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
+        $('#forecast').append($('<div>').addClass("card forecast-card col-lg-2").append($('<h3>').text(`${dayjs().add(i+1, 'day').format('dddd DD/MM/YY')}`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
     }
 }
 // This renders the buttons based on the history of searches.
 function renderButtons() {
     // Look in the history and make a button for previous searches
     JSON.parse(localStorage.getItem("cityHistory")).forEach( element => {
-        $('.input-group-append').append($('<button>').text(`${element.name}`).attr(`data-query`, `${element.query}`).attr(`data-lat`, `${element.lat}`).attr(`data-lon`, `${element.lon}`))
+        $('#city-btn-group').append($('<button>').addClass("btn city-btn").text(`${element.name}`).attr(`data-query`, `${element.query}`).attr(`data-lat`, `${element.lat}`).attr(`data-lon`, `${element.lon}`))
     })
 }
 
 $('#search-button').on('click', (event) => {
     event.preventDefault()
-    console.log(geourl('London, GB', 5, APIKEY))
+    console.log(geourl('Paris, FR', 5, APIKEY))
     console.log(weatherURL("53.3968736","-0.7739577",APIKEY));
 })
 

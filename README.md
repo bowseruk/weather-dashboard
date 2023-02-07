@@ -52,7 +52,9 @@ The website can be viewed at [https://bowseruk.github.io/weather-dashboard/](htt
 
 * [Font Awesome]() was used and the documentation referenced.
 
-* [JQuery]() documentation was referred to throughout the project.
+* [JQuery](https://api.jquery.com/) documentation was referred to throughout the project.
+
+* [Day.js](https://day.js.org/en/) was used, and the documentation was referred to throughout the project.
 
 * [5 Day Weather Forecast](https://openweathermap.org/forecast5) API was used for the project.
 
