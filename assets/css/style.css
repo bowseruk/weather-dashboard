@@ -6,3 +6,8 @@ body {
 .weather-header {
     background-image: linear-gradient(to right, var(--light-colour-main) , var(--dark-colour-main));
 }
+
+.forecast-card{
+    color: white;
+    background-color: darkblue;
+}

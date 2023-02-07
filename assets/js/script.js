@@ -6,7 +6,7 @@ fetch('https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9
     .then((json) => console.log(json));
 // These functions make the url for api calls
 let geourl = (cityName, limit, apiKey) => `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=${limit}&appid=${apiKey}`
-let weatherURL = (lat, lon, apiKey) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+
 // This function sets up the page
 function init() {
     // Check if the history has been created. If not default to london.
@@ -15,7 +15,17 @@ function init() {
     }
     renderButtons()
     renderForecast()
+}
 
+function getForecast(lat, lon) {
+    let weatherURL = (lat, lon, apiKey) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+    $.ajax({
+        url: weatherURL(lat,lon, APIKEY),
+        method: "GET"
+    }).then((response) => {
+        console.log(response);
+        return response;
+    });
 }
 
 function renderForecast() {
@@ -23,12 +33,14 @@ function renderForecast() {
     $('#today').empty()
     $('#forecast').empty()
     // Get city object of object most recent search
-    let currentCity = JSON.parse(localStorage.getItem("cityHistory"))[0]; 
+    let currentCity = JSON.parse(localStorage.getItem("cityHistory"))[0];
+    let weatherData = getForecast(currentCity.lat, currentCity.lon);
+    console.log(weatherData);
     // Make the today box
-    $('#today').append($('<div>').append($('<h2>').text(`${currentCity.name}`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
+    $('#today').append($('<div>').addClass("card").append($('<h3>').text(`${currentCity.name}`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
     // Forecast
     for (let i = 0; i < 5; i++) {
-        $('#forecast').append($('<div>').append($('<h2>').text('Placeholder')).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
+        $('#forecast').append($('<div>').addClass("card forecast-card col-lg-2 me-auto").append($('<h3>').text('Placeholder')).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
     }
 }
 // This renders the buttons based on the history of searches.
