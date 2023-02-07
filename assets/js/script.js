@@ -35,34 +35,30 @@ function init() {
     renderForecast()
 }
 
-function getForecast(lat, lon) {
+function renderForecast() {
+    // Get city object of object most recent search
+    let currentCity = JSON.parse(localStorage.getItem("cityHistory"))[0];
+    // This lists the days used
+    let dates = [dayjs(), dayjs().add(1, 'day'), dayjs().add(2, 'day'), dayjs().add(3, 'day'), dayjs().add(4, 'day'), dayjs().add(5, 'day')]
+    for (let i = 1; i < dates.length; i++) {
+        $(`#day-${i}-title`)
+    }
+    // 
+    console.log(dates)
+    $('#day-0-title').text(`${currentCity.name} (${dayjs().format('DD/MM/YY')})`);
     let weatherURL = (lat, lon, apiKey) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
     $.ajax({
-        url: weatherURL(lat, lon, APIKEY),
+        url: weatherURL(currentCity.lat, currentCity.lon, APIKEY),
         method: "GET"
     }).then((response) => {
-        console.log(response.list);
+        // console.log(response.list);
         response.list.forEach(element => {
             console.log(dayjs(element.dt * 1000).format('DD/MM/YY'), element.dt_txt, element.weather[0].icon, element.main.temp, element.wind.speed, element.main.humidity)
         })
         return response;
     });
-}
+    // console.log(weatherData);
 
-function renderForecast() {
-    // Empty current contents
-    // $('#today').empty()
-    $('#forecast').empty()
-    // Get city object of object most recent search
-    let currentCity = JSON.parse(localStorage.getItem("cityHistory"))[0];
-    let weatherData = getForecast(currentCity.lat, currentCity.lon);
-    console.log(weatherData);
-    // Make the today box
-    // $('#today').append($('<div>').addClass("card").append($('<h3>').text(`${currentCity.name} (${dayjs().format('DD/MM/YY')})`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
-    // Forecast
-    for (let i = 0; i < 5; i++) {
-        $('#forecast').append($('<div>').addClass("card forecast-card col-lg-2").append($('<h3>').text(`${dayjs().add(i + 1, 'day').format('ddd DD/MM/YY')}`)).append($('<p>').text('Temp:')).append($('<p>').text('Wind:')).append($('<p>').text('Humidity:')))
-    }
 }
 // This renders the buttons based on the history of searches.
 function renderButtons() {

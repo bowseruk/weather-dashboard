@@ -9,6 +9,7 @@
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://kit.fontawesome.com/0dd9fad87f.js" crossorigin="anonymous"></script>
   <title>Weather Dashboard</title>
 </head>
 
@@ -22,13 +23,18 @@
   <div class="container-fluid" style="max-width: 1400px">
     <!-- This contains the aside and the main display -->
     <div class="row">
+      <!-- This is where the search and buttons live -->
       <aside class="col-lg-3">
+        <!-- The search and buttons are in a card -->
         <div class="card">
+          <!-- Card Title -->
           <h2 id="form-heading" class="mt-1 h3 card-header">
             Search for a City:
           </h2>
+          <!-- Use card list to seperate the items -->
           <ul class="list-group list-group-flush">
             <form id="search-form" class="form">
+              <!-- This part is a input with a built in button to look nicer-->
               <li class="list-group-item">
                 <div class="input-group">
                   <input class="form-control weather-search" type="text" id="search-input" placeholder="London"
@@ -39,9 +45,11 @@
                   </button>
                 </div>
               </li>
+              <!-- This is where the historic search buttons go -->
               <li class="list-group-item d-grid gap-2">
                 <div id="city-btn-group" class="btn-group-vertical" role="group"></div>
               </li>
+              <!-- THis is the button to clear the history -->
               <li class="list-group-item d-grid gap-2">
                 <button type="submit" class="btn clear-button btn-danger" id="clear-button"
                   aria-label="clear search history">
@@ -52,81 +60,105 @@
           </form>
         </div>
       </aside>
-
+      <!-- This is the main part of the app -->
       <main class="col-lg-9 pb-3">
+        <!-- This is the today section -->
         <section id="today-section" class="mt-3" role="region" aria-live="polite">
-          <div class="col-lg-6">
           <h2>Today's Weather</h2>
           <div id="today" class="row">
-            <div class="card">
-              <img id="day-0-img" src="..." class="card-img-top" alt="Weather Icon">
-              <h3 class="card-title" id="day-0-title">Place holder</h3>
-              <ul class="list-group list-group-flush">
-                <li id="day-0-temp" class="list-group-item">Temp:</li>
-                <li id="day-0-wind" class="list-group-item">Wind:</li>
-                <li id="day-0-humidty" class="list-group-item">Humidity:</li>
-              </ul>
+            <div class="col-lg-6">
+              <div id="day-0-card" class="card today-card">
+                <img id="day-0-img" src="..." class="card-img-top" alt="Weather Icon">
+                <h3 class="card-title" id="day-0-title">Place holder</h3>
+                <ul class="list-group list-group-flush">
+                  <li id="day-0-temp" class="list-group-item"><i class="fa-solid fa-temperature-three-quarters"></i>
+                    <span id="day-0-temp-value"></span> &#8451
+                  </li>
+                  <li id="day-0-wind" class="list-group-item"><i class="fa-solid fa-wind"></i> <span
+                      id="day-0-wind-value"></span> km/h</li>
+                  <li id="day-0-humidty" class="list-group-item"><i class="fa-solid fa-droplet"></i> <span
+                      id="day-0-humidty-value"></span> %</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
 
         </section>
         <section id="forecast-section" class="mt-3" role="region" aria-live="polite">
           <h2>5-Day Forecast</h2>
-          <div id="forecast" class="row justify-content-between"></div>
-          <div id="test" class="row justify-content-between">
-            <div class="col-lg-2">
-              <div class="card forecast-card">
+          <div id="forecast" class="row justify-content-between">
+            <div class="col-lg">
+              <div id="day-1-card" class="card forecast-card">
                 <img id="day-1-img" src="..." class="card-img-top" alt="Weather Icon">
                 <h3 class="card-title" id="day-1-title">Place holder</h3>
                 <ul class="list-group list-group-flush">
-                  <li id="day-1-temp" class="list-group-item">Temp:</li>
-                  <li id="day-1-wind" class="list-group-item">Wind:</li>
-                  <li id="day-1-humidty" class="list-group-item">Humidity:</li>
+                  <li id="day-1-temp" class="list-group-item"><i class="fa-solid fa-temperature-three-quarters"></i>
+                    <span id="day-1-temp-value"></span> &#8451
+                  </li>
+                  <li id="day-1-wind" class="list-group-item"><i class="fa-solid fa-wind"></i> <span
+                      id="day-1-wind-value"></span> km/h</li>
+                  <li id="day-1-humidty" class="list-group-item"><i class="fa-solid fa-droplet"></i> <span
+                      id="day-1-humidty-value"></span> %</li>
                 </ul>
               </div>
             </div>
-            <div class="col-lg-2">
-              <div class="card forecast-card">
+            <div class="col-lg">
+              <div id="day-2-card"  class="card forecast-card">
                 <img id="day-2-img" src="..." class="card-img-top" alt="Weather Icon">
                 <h3 class="card-title" id="day-2-title">Place holder</h3>
                 <ul class="list-group list-group-flush">
-                  <li id="day-2-temp" class="list-group-item">Temp:</li>
-                  <li id="day-2-wind" class="list-group-item">Wind:</li>
-                  <li id="day-2-humidty" class="list-group-item">Humidity:</li>
+                  <li id="day-2-temp" class="list-group-item"><i class="fa-solid fa-temperature-three-quarters"></i>
+                    <span id="day-2-temp-value"></span> &#8451
+                  </li>
+                  <li id="day-2-wind" class="list-group-item"><i class="fa-solid fa-wind"></i> <span
+                      id="day-2-wind-value"></span> km/h</li>
+                  <li id="day-2-humidty" class="list-group-item"><i class="fa-solid fa-droplet"></i> <span
+                      id="day-2-humidty-value"></span> %</li>
                 </ul>
               </div>
             </div>
-            <div class="col-lg-2">
-              <div class="card forecast-card">
+            <div class="col-lg">
+              <div id="day-3-card" class="card forecast-card">
                 <img id="day-3-img" src="..." class="card-img-top" alt="Weather Icon">
                 <h3 class="card-title" id="day-3-title">Place holder</h3>
                 <ul class="list-group list-group-flush">
-                  <li id="day-3-temp" class="list-group-item">Temp:</li>
-                  <li id="day-3-wind" class="list-group-item">Wind:</li>
-                  <li id="day-3-humidty" class="list-group-item">Humidity:</li>
+                  <li id="day-3-temp" class="list-group-item"><i class="fa-solid fa-temperature-three-quarters"></i>
+                    <span id="day-3-temp-value"></span> &#8451
+                  </li>
+                  <li id="day-3-wind" class="list-group-item"><i class="fa-solid fa-wind"></i> <span
+                      id="day-3-wind-value"></span> km/h</li>
+                  <li id="day-3-humidty" class="list-group-item"><i class="fa-solid fa-droplet"></i> <span
+                      id="day-3-humidty-value"></span> %</li>
                 </ul>
               </div>
             </div>
-            <div class="col-lg-2">
-              <div class="card forecast-card">
+            <div class="col-lg">
+              <div id="day-4-card" class="card forecast-card">
                 <img id="day-4-img" src="..." class="card-img-top" alt="Weather Icon">
                 <h3 class="card-title" id="day-4-title">Place holder</h3>
                 <ul class="list-group list-group-flush">
-                  <li id="day-4-temp" class="list-group-item">Temp:</li>
-                  <li id="day-4-wind" class="list-group-item">Wind:</li>
-                  <li id="day-4-humidty" class="list-group-item">Humidity:</li>
+                  <li id="day-4-temp" class="list-group-item"><i class="fa-solid fa-temperature-three-quarters"></i>
+                    <span id="day-4-temp-value"></span> &#8451
+                  </li>
+                  <li id="day-4-wind" class="list-group-item"><i class="fa-solid fa-wind"></i> <span
+                      id="day-4-wind-value"></span> km/h</li>
+                  <li id="day-4-humidty" class="list-group-item"><i class="fa-solid fa-droplet"></i> <span
+                      id="day-4-humidty-value"></span> %</li>
                 </ul>
               </div>
             </div>
-            <div class="col-lg-2">
-              <div class="card forecast-card">
+            <div class="col-lg">
+              <div id="day-5-card" class="card forecast-card">
                 <img id="day-5-img" src="..." class="card-img-top" alt="Weather Icon">
                 <h3 class="card-title" id="day-5-title">Place holder</h3>
                 <ul class="list-group list-group-flush">
-                  <li id="day-5-temp" class="list-group-item">Temp:</li>
-                  <li id="day-5-wind" class="list-group-item">Wind:</li>
-                  <li id="day-5-humidty" class="list-group-item">Humidity:</li>
+                  <li id="day-5-temp" class="list-group-item"><i class="fa-solid fa-temperature-three-quarters"></i>
+                    <span id="day-5-temp-value"></span> &#8451
+                  </li>
+                  <li id="day-5-wind" class="list-group-item"><i class="fa-solid fa-wind"></i> <span
+                      id="day-5-wind-value"></span> km/h</li>
+                  <li id="day-5-humidty" class="list-group-item"><i class="fa-solid fa-droplet"></i> <span
+                      id="day-5-humidty-value"></span> %</li>
                 </ul>
               </div>
             </div>
