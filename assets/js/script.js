@@ -1,9 +1,5 @@
 // This is the api key for the script
 const APIKEY = 'fd90c2e0e60b3f4e9689e93a70e6e95d';
-
-fetch('https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9f2119654b29ede6e45b8/data_json.json')
-    .then((response) => response.json())
-    .then((json) => console.log(json));
 // These functions make the url for api calls
 let geourl = (cityName, limit, apiKey) => `http://api.openweathermap.org/geo/1.0/direct?q=${cityName.replaceAll(" ", "")}&limit=${limit}&appid=${apiKey}`
 
@@ -104,17 +100,14 @@ function renderForecast() {
                 dates[0].addTemp(dates[1]._temp[0]);
                 dates[0].addWindSpeed(dates[1]._windSpeed[0]);
                 dates[0].addHumidity(dates[1]._humidity[0]);
-            }
-            
+            }     
             // console.log(dayjs(element.dt * 1000).format('DD/MM/YY'), element.dt_txt, element.weather[0].icon, element.main.temp, element.wind.speed, element.main.humidity)
         })
         dates.forEach((element, index) => {
-            $(`#day-${index}-temp-value`).text(element.meanTemp);
-            $(`#day-${index}-wind-value`).text(element.meanWindSpeed);
-            $(`#day-${index}-humidty-value`).text(element.meanHumidity);
+            $(`#day-${index}-temp-value`).text(element.meanTemp.toFixed(1));
+            $(`#day-${index}-wind-value`).text(element.meanWindSpeed.toFixed(1));
+            $(`#day-${index}-humidty-value`).text(element.meanHumidity.toFixed(1));
         })
-        console.log(dates)
-        return response;
     });
     // console.log(weatherData);
 
