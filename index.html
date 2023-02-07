@@ -30,15 +30,15 @@
           <ul class="list-group list-group-flush">
             <form id="search-form" class="form">
               <li class="list-group-item">
-                <input class="form-input weather-search" type="text" id="search-input" placeholder="London"
+                <div class="input-group">
+                <input class="form-control weather-search" type="text" id="search-input" placeholder="London"
                   aria-labelledby="form-heading" aria-controls="today forecast" />
+                  <button type="submit" class="btn btn-outline-secondary search-button" id="search-button" aria-label="submit search">
+                    Search
+                  </button>
+                </div>
               </li>
-              <li class="list-group-item">
-                <button type="submit" class="btn search-button" id="search-button" aria-label="submit search">
-                  Search
-                </button>
-              </li>
-              <li class="list-group-item">
+              <li class="list-group-item d-grid gap-2">
                 <div id="city-btn-group" class="btn-group-vertical" role="group"></div>
               </li>
           </ul>
