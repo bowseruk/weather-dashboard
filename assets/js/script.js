@@ -31,6 +31,7 @@ class Weather {
         this._humidity = [];
         this._icon = []
     };
+    // These functions add a reading to the array
     addIcon(icon) {
         this._icon.push(icon)
     }
@@ -43,8 +44,9 @@ class Weather {
     addHumidity(humidity) {
         this._humidity.push(humidity)
     }
+    //  Get functions for the object
     get icon() {
-        return `http://openweathermap.org/img/wn/${this._icon[Math.floor(this._icon.length/2)]}@2x.png`
+        return `https://openweathermap.org/img/wn/${this._icon[Math.floor(this._icon.length/2)]}@2x.png`
     }
     get meanTemp() {
         return this._temp.reduce(function(p,c,i){return p+(c-p)/(i+1)},0)
@@ -85,8 +87,7 @@ function renderForecast() {
         $(`#day-${i}-day`).text(dates[i].day.format("ddd"))
         $(`#day-${i}-title`).text(dates[i].day.format("DD/MM/YY"))
     }
-    // 
-    console.log(dates)
+    // Set the main title
     $('#day-0-day').text(`${dayjs().format('dddd')}`);
     $('#day-0-title').text(`${currentCity.name} (${dayjs().format('DD/MM/YY')})`);
     let weatherURL = (lat, lon, apiKey) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
@@ -94,7 +95,6 @@ function renderForecast() {
         url: weatherURL(currentCity.lat, currentCity.lon, APIKEY),
         method: "GET"
     }).then((response) => {
-        // console.log(response.list);
         response.list.forEach(element => {
             for (let i = 0; i < dates.length; i++) {
                 if (dayjs(element.dt * 1000).isSame(dates[i].day, 'day') ){
@@ -111,8 +111,8 @@ function renderForecast() {
                 dates[0].addWindSpeed(dates[1]._windSpeed[0]);
                 dates[0].addHumidity(dates[1]._humidity[0]);
             }     
-            // console.log(dayjs(element.dt * 1000).format('DD/MM/YY'), element.dt_txt, element.weather[0].icon, element.main.temp, element.wind.speed, element.main.humidity)
         })
+        // Use the Weather object to display info
         dates.forEach((element, index) => {
             $(`#day-${index}-img`).attr("src", element.icon);
             $(`#day-${index}-temp-value`).text(element.meanTemp.toFixed(1));
@@ -120,8 +120,6 @@ function renderForecast() {
             $(`#day-${index}-humidty-value`).text(element.meanHumidity.toFixed(1));
         })
     });
-    // console.log(weatherData);
-
 }
 // This renders the buttons based on the history of searches.
 function renderButtons() {
