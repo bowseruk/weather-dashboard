@@ -82,10 +82,12 @@ function renderForecast() {
     // This lists the days used
     let dates = [new Weather(dayjs()), new Weather(dayjs().add(1, 'day')), new Weather(dayjs().add(2, 'day')), new Weather(dayjs().add(3, 'day')), new Weather(dayjs().add(4, 'day')), new Weather(dayjs().add(5, 'day'))]
     for (let i = 1; i < dates.length; i++) {
-        $(`#day-${i}-title`).text(dates[i].day.format("ddd DD/MM/YY"))
+        $(`#day-${i}-day`).text(dates[i].day.format("ddd"))
+        $(`#day-${i}-title`).text(dates[i].day.format("DD/MM/YY"))
     }
     // 
     console.log(dates)
+    $('#day-0-day').text(`${dayjs().format('dddd')}`);
     $('#day-0-title').text(`${currentCity.name} (${dayjs().format('DD/MM/YY')})`);
     let weatherURL = (lat, lon, apiKey) => `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
     $.ajax({

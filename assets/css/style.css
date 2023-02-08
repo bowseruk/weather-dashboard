@@ -1,13 +1,18 @@
+/* Body and Page settings */
 body {
     --light-colour-main: blue;
     --dark-colour-main: darkblue;
 }
-
+/* Gradient in header */
 .weather-header {
     background-image: linear-gradient(to right, var(--light-colour-main) , var(--dark-colour-main));
 }
-
+/* Colour of weather card */
 .forecast-card{
     color: white;
     background-color: darkblue;
+}
+/* Limit size of weather icon */
+.forecast-img {
+    width: 50%;
 }
