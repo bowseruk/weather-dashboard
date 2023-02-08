@@ -1,7 +1,7 @@
 // This is the api key for the script
 const APIKEY = 'fd90c2e0e60b3f4e9689e93a70e6e95d';
 // These functions make the url for api calls
-let geourl = (cityName, limit, apiKey) => `http://api.openweathermap.org/geo/1.0/direct?q=${cityName.replaceAll(" ", "")}&limit=${limit}&appid=${apiKey}`
+let geourl = (cityName, limit, apiKey) => `https://api.openweathermap.org/geo/1.0/direct?q=${cityName.replaceAll(" ", "")}&limit=${limit}&appid=${apiKey}`
 
 // This class represents a city
 class City {
