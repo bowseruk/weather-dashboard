@@ -29,7 +29,11 @@ class Weather {
         this._temp = [];
         this._windSpeed = [];
         this._humidity = [];
+        this._icon = []
     };
+    addIcon(icon) {
+        this._icon.push(icon)
+    }
     addTemp(temp) {
         this._temp.push(temp)
     }
@@ -38,6 +42,9 @@ class Weather {
     }
     addHumidity(humidity) {
         this._humidity.push(humidity)
+    }
+    get icon() {
+        return `http://openweathermap.org/img/wn/${this._icon[Math.floor(this._icon.length/2)]}@2x.png`
     }
     get meanTemp() {
         return this._temp.reduce(function(p,c,i){return p+(c-p)/(i+1)},0)
@@ -89,6 +96,7 @@ function renderForecast() {
         response.list.forEach(element => {
             for (let i = 0; i < dates.length; i++) {
                 if (dayjs(element.dt * 1000).isSame(dates[i].day, 'day') ){
+                    dates[i].addIcon(element.weather[0].icon);
                     dates[i].addTemp(element.main.temp);
                     dates[i].addWindSpeed(element.wind.speed);
                     dates[i].addHumidity(element.main.humidity);
@@ -97,6 +105,7 @@ function renderForecast() {
             }
             // If the time is between 9pm and 12am there are no results in today. Add the first results from the next day.
             if (dates[0]._temp.length === 0) {
+                dates[0].addIcon(dates[1]._icon[0]);
                 dates[0].addTemp(dates[1]._temp[0]);
                 dates[0].addWindSpeed(dates[1]._windSpeed[0]);
                 dates[0].addHumidity(dates[1]._humidity[0]);
@@ -104,6 +113,7 @@ function renderForecast() {
             // console.log(dayjs(element.dt * 1000).format('DD/MM/YY'), element.dt_txt, element.weather[0].icon, element.main.temp, element.wind.speed, element.main.humidity)
         })
         dates.forEach((element, index) => {
+            $(`#day-${index}-img`).attr("src", element.icon);
             $(`#day-${index}-temp-value`).text(element.meanTemp.toFixed(1));
             $(`#day-${index}-wind-value`).text(element.meanWindSpeed.toFixed(1));
             $(`#day-${index}-humidty-value`).text(element.meanHumidity.toFixed(1));
