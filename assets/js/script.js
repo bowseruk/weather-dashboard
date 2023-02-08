@@ -101,7 +101,6 @@ function renderForecast() {
                     dates[i].addWindSpeed(element.wind.speed);
                     dates[i].addHumidity(element.main.humidity);
                 }
-                $(`#day-${i}-title`).text(dates[i].day.format("ddd DD/MM/YY"))
             }
             // If the time is between 9pm and 12am there are no results in today. Add the first results from the next day.
             if (dates[0]._temp.length === 0) {
