@@ -2,17 +2,67 @@
 body {
     --light-colour-main: blue;
     --dark-colour-main: darkblue;
+    --start: white;
+    --cold: lightblue;
+    --coldText: white;
+    --mild: rgb(103, 103, 238);
+    --mildText: white;
+    --warm: rgb(255, 210, 125);
+    --warmText: white;
+    --hot: rgb(255, 166, 0);
+    --hotText: white;
 }
 /* Gradient in header */
 .weather-header {
     background-image: linear-gradient(to right, var(--light-colour-main) , var(--dark-colour-main));
 }
 /* Colour of weather card */
-.forecast-card{
+/* .forecast-card{
     color: white;
     background-color: darkblue;
-}
+} */
 /* Limit size of weather icon */
 .forecast-img {
     width: 50%;
 }
+/* cold */
+.cold {
+    color: var(--coldText);
+    background-color: var(--cold);
+}
+
+/* mild */
+.mild {
+    color: var(--mildText);
+    background-color: var(--mild);
+}
+
+/* warm */
+.warm {
+    color: var(--warmText);
+    background-color: var(--warm);
+}
+
+/* */
+.hot {
+    color: var(--hotText);
+    background-color: var(--hot);
+}
+
+/* Media query for mobile users */
+@media screen and (max-width: 991px) {
+    .card {
+        margin: 10px 0;
+    }
+
+    .forecast-img {
+        width: 25%;
+    }
+}
+/* Check for dark mode */
+/* @media (prefers-color-scheme: dark) {
+    body {
+        --light-colour-main: grey;
+        --dark-colour-main: grey;
+    }
+  } */

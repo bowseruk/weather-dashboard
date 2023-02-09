@@ -5,6 +5,7 @@ let geourl = (cityName, limit, apiKey) => `https://api.openweathermap.org/geo/1.
 
 // This class represents a city
 class City {
+    // Creates the class when it is created
     constructor(name, state, country, lat, lon) {
         this.name = name;
         this.state = state;
@@ -13,6 +14,7 @@ class City {
         this.lon = parseFloat(lon);
         this.query = `${name}, ${state}, ${country}`;
     };
+    // Test to see if two objects are equal, as equivalence operator does not function the way wanted for the project
     isEqual(city) {
         if ((city.name === this.name) && (city.state === this.state) && (city.country === this.country)) {
             return true;
@@ -52,10 +54,10 @@ class Weather {
         return this._temp.reduce(function(p,c,i){return p+(c-p)/(i+1)},0)
     }
     get highTemp() {
-        return Math.max(...this.temp)
+        return Math.max(...this._temp)
     }
     get lowTemp() {
-        return Math.min(...this.temp)
+        return Math.min(...this._temp)
     }
     get meanWindSpeed() {
         return this._windSpeed.reduce(function(p,c,i){return p+(c-p)/(i+1)},0)
@@ -65,6 +67,19 @@ class Weather {
     }
     get day() {
         return this._day
+    }
+    // Categorise the weather as 0: cold, 1: mild, 2: warm, 3: hot
+    get tempCategory() {
+        let testTemp = this.highTemp;
+        if (testTemp < 0) {
+            return 0;
+        } else if (testTemp >= 0 && testTemp < 15) {
+            return 1;
+        } else if (testTemp >= 15 && testTemp < 25 ) {
+            return 2;
+        } else {
+            return 3;
+        }
     }
 }
 
@@ -95,6 +110,10 @@ function renderForecast() {
         url: weatherURL(currentCity.lat, currentCity.lon, APIKEY),
         method: "GET"
     }).then((response) => {
+        let colorClass = ["cold", "mild", "warm", "hot"]
+        let colorCode = [['var(--start)','var(--cold)'],['var(--cold)','var(--mild)'],['var(--mild)','var(--warm)'],['var(--warm)','var(--hot)']];
+        let gradient = (index) => `: linear-gradient(to right, ${colorCode[index][0]} , ${colorCode[index][1]})`;
+        let backgroundColor = (index) => `${colorCode[index][1]}`
         response.list.forEach(element => {
             for (let i = 0; i < dates.length; i++) {
                 if (dayjs(element.dt * 1000).isSame(dates[i].day, 'day') ){
@@ -114,8 +133,9 @@ function renderForecast() {
         })
         // Use the Weather object to display info
         dates.forEach((element, index) => {
+            $(`#day-${index}-card`).removeClass().addClass(`forecast-card card ${colorClass[element.tempCategory]}`)
             $(`#day-${index}-img`).attr("src", element.icon);
-            $(`#day-${index}-temp-value`).text(element.meanTemp.toFixed(1));
+            $(`#day-${index}-temp-value`).text(element.highTemp.toFixed(1));
             $(`#day-${index}-wind-value`).text(element.meanWindSpeed.toFixed(1));
             $(`#day-${index}-humidty-value`).text(element.meanHumidity.toFixed(1));
         })
